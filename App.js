@@ -8,47 +8,95 @@ import {
   SafeAreaView,
 } from "react-native";
 
-import Button from "./components/Button";
+
 import tw from "twrnc";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AddBudgetItem from "./screens/AddBudgetItem";
+import HomeScreen from "./screens/HomeSceen";
+import { Ionicons } from "@expo/vector-icons";
+import ExpensesScreen from "./screens/ExpensesScreen";
+import IncomesScreen from "./screens/IncomesScreen";
 
 export default function App() {
-  const test = (event) => {
-    console.log(event)
-  };
+  const Stack = createNativeStackNavigator();
+  const BottomTabs = createBottomTabNavigator();
 
+  function Overview() {
+    return (
+      <BottomTabs.Navigator
+        screenOptions={{
+          style: tw`bg-white`,
+          activeTintColor: "red",
+          inactiveTintColor: "gray",
+        }}
+      >
+      <BottomTabs.Screen
+          options={{
+            title: "Home",
+            tabBarLabel: "Home",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="home" color={color} size={size} />
+            ),
+          }}
+          name="HomeScreen"
+          component={HomeScreen}
+        />
+        <BottomTabs.Screen
+          options={{
+            title: "Add item",
+            tabBarLabel: "Add",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="add-circle-outline" color={color} size={size} />
+            ),
+          }}
+          name="AddBudgetItem"
+          component={AddBudgetItem}r
+        />
+         <BottomTabs.Screen
+          options={{
+            style: tw`bg-black`,
+            title: "inc",
+            tabBarLabel: "Incom",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="cash-outline" color={color} size={size} />
+            ),
+          }}
+          name="inc"
+          component={IncomesScreen}r
+        />
+         <BottomTabs.Screen
+          options={{
+            title: "exp",
+            tabBarLabel: "exp",
+            tabBarIcon: ({ color, size }) => (
+             
+              <Ionicons name="cash-outline" color={color} size={size} />
+            ),
+          }}
+          name="exp"
+          component={ExpensesScreen}r
+        />
+        
+      </BottomTabs.Navigator>
+    );
+  }
   return (
-    <View className="flex-1 items-center justify-center border-zinc-900">
-      <Image source={require("./assets/logo.png")} />
-      <View style={tw`flex p-2`}>
-        <TextInput
-          style={tw`border my-2 p-2 rounded w-60`}
-          placeholder="Email"
-        />
-        <TextInput
-          style={tw`border p-2 rounded w-60`}
-          placeholder="Password"
-          type="password"
-          secureTextEntry={true}
-        />
-      </View>
+    <>
       <StatusBar />
-      <View className="flex-col my-4 space-y-3">
-        <Button type="Login"></Button>
-      </View>
-      <View>
-        <Pressable onPress={test} className="my-11">
-          <Text className="text-blue-300">Signup</Text>
-        </Pressable>
-      </View>
-    </View>
+      <NavigationContainer>
+        <Stack.Navigator>
+          {/* Bottom tabs */}
+          <Stack.Screen
+            name="Overview"
+            component={Overview}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="AddBudgetItem" component={AddBudgetItem} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
