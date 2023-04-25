@@ -1,6 +1,9 @@
+// ExpensesScreen.js
 import React from "react";
 import { View, Text, Pressable, FlatList } from "react-native";
 import { Button } from "react-native-paper";
+import ExpensesList from "../components/ExpensesList";
+
 
 
 const ExpensesScreen = () => {
@@ -12,6 +15,7 @@ const ExpensesScreen = () => {
       <Button>
         <Text>Select date</Text>
       </Button>
+      <ExpensesList />
     </View>
   );
 };
