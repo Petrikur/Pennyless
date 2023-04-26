@@ -8,9 +8,9 @@ import tw from "twrnc";
 const ExpensesScreen = () => {
   return (
     <View style={tw`flex-1 `}>
-      <Text>Expenses</Text>
-      <Text>Last 7 days</Text>
-      <Text>350€</Text>
+      <Text style= {tw`text-center`}>Expenses</Text>
+     
+
       <ExpensesList />
     </View>
   );

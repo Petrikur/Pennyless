@@ -1,15 +1,16 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, TextInput } from "react-native";
-import tw from "tailwind-react-native-classnames";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import tw from "twrnc";
 import Button from "../components/UI/Button";
 import { DataContext } from "../components/context/DataContext";
-
+import DateTimePicker from "@react-native-community/datetimepicker";
 const AddBudgetItem = () => {
   const { addIncome, addExpense } = useContext(DataContext);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
   const [category, setCategory] = useState("income");
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleDescChange = (description) => {
     setDescription(description);
@@ -20,7 +21,8 @@ const AddBudgetItem = () => {
   };
 
   const handleDateChange = (date) => {
-    setDate(new Date(date));
+    setDate(date);
+    setShowDatePicker(false);
   };
 
   const handleCategoryChange = (category) => {
@@ -28,8 +30,8 @@ const AddBudgetItem = () => {
   };
 
   useEffect(() => {
-    console.log("category: " , category)
-  })
+    console.log("category: ", category);
+  });
 
   const handleAddBudgetItem = () => {
     const budgetItem = {
@@ -45,7 +47,7 @@ const AddBudgetItem = () => {
     }
     setDescription("");
     setAmount("");
-    setDate("");
+    setDate(new Date());
     setCategory("income");
   };
 
@@ -53,24 +55,26 @@ const AddBudgetItem = () => {
   const inactiveButtonStyle = tw`bg-gray-300 text-gray-500 py-2 px-4 rounded-full`;
 
   return (
-    <View style={tw``}>
-      <View style={tw`flex flex-row mb-4 `}>
-        <Button
-          title="Income"
+    <View style={tw`mx-4 mt-2`}>
+      <View style={tw`flex flex-row mb-4 items-center justify-between `}>
+        <TouchableOpacity
           onPress={() => handleCategoryChange("income")}
           style={[
             tw`flex-1 mr-2`,
             category === "income" ? activeButtonStyle : inactiveButtonStyle,
           ]}
-        />
-        <Button
-          title="Expense"
+        >
+          <Text>Income</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           onPress={() => handleCategoryChange("expense")}
           style={[
             tw`flex-1 ml-2`,
             category === "expense" ? activeButtonStyle : inactiveButtonStyle,
           ]}
-        />
+        >
+          <Text>Expense</Text>
+        </TouchableOpacity>
       </View>
 
       <Text>Description:</Text>
@@ -87,11 +91,24 @@ const AddBudgetItem = () => {
         keyboardType="numeric"
       />
       <Text>Date:</Text>
-      <TextInput
-        value={date.toString()}
-        onChangeText={handleDateChange}
+      <TouchableOpacity
+        onPress={() => setShowDatePicker(true)}
         style={tw`border border-gray-400 rounded py-2 px-3`}
-      />
+      >
+        <Text>{date.toLocaleDateString()}</Text>
+      </TouchableOpacity>
+      {showDatePicker && (
+        <DateTimePicker
+          modal
+          value={date}
+          onChange={(event, selectedDate) => {
+            const currentDate = selectedDate || date;
+            setDate(currentDate);
+            setShowDatePicker(false);
+          }}
+          onCancel={() => setShowDatePicker(false)}
+        />
+      )}
       <Button title="Add Budget Item" onPress={handleAddBudgetItem} />
     </View>
   );
