@@ -1,24 +1,51 @@
-// List.js
-import React, { useState } from "react";
-import { View, Text, TextInput, FlatList } from "react-native";
-import tw from "twrnc"
+import React, { useEffect, useState } from "react";
+import { View, Text, TextInput, FlatList, ScrollView } from "react-native";
+import tw from "twrnc";
 
-// Parent component for expenses and incomes
 const List = ({ type, data }) => {
-  let backGroundColor = type === "expense"? "red": "green"
+  let backGroundColor = type === "expense" ? "#ff9999" : "#b3ffb3";
+  let currency = "€";
+
+  useEffect(() => {});
   const renderListItem = (itemData) => {
     return (
-      <View style={tw`flex flex-row`}>
-        <Text style={tw`text-lg`}>{itemData.item.description} </Text>
-        <Text style = {tw`text-lg`}>{itemData.item.amount} €</Text>
+      <View
+        height={100}
+        backgroundColor={backGroundColor}
+        style={tw`mb-2 p-4 w-95 items-center rounded justify-center flex`}
+      >
+        <View style={tw`flex flex-row items-center justify-between`}>
+          <View style={tw`flex-1`}>
+            <Text style={tw`text-lg font-bold`}>
+              {itemData.item.description}
+            </Text>
+          </View>
+          <View style={tw`flex-1 justify-end items-end`}>
+            <Text style={tw`text-lg font-bold bg-white rounded p-2`}>
+              {type === "expense" ? "-" : "+"} {itemData.item.amount} {currency}
+            </Text>
+          </View>
+        </View>
+        <Text>{itemData.item.date.toLocaleDateString()}</Text>
       </View>
     );
   };
 
   return (
-    <View style= {tw`flex items-center`} backgroundColor={backGroundColor} >
-      <FlatList data={data} renderItem={renderListItem} />
-    </View>
+    <View style={tw`flex-1 h-5/6 `}>
+
+    <FlatList
+      // maxToRenderPerBatch={5}
+      style={tw`flex-1`}
+      data={data}
+      renderItem={renderListItem}
+      keyExtractor={(item, index) => index.toString()}
+      contentContainerStyle={tw`p-4`}
+      showsVerticalScrollIndicator={false}
+      flexGrow={1}
+    />
+    {/* /* ListFooterComponent={<View style={{ height: 250 }} />} */}
+    </View> 
   );
 };
 

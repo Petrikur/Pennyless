@@ -2,9 +2,11 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 
-const Button = ({ onPress, title }) => {
+const Button = ({ onPress, title, styles }) => {
     return (
-        <View style={tw`flex justify-center items-center `}>
+        <View
+        
+         style={tw`flex justify-center items-center ${styles}`}>
           <TouchableOpacity
             style={tw`bg-blue-500 p-4 rounded items-center mt-4`}
             onPress={onPress}

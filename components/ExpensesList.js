@@ -1,38 +1,39 @@
 // Expenselist.js
-import React from 'react'
-import { View } from 'react-native';
-import List from "../components/List"
 
-const expensesList = [
-    {
-      id: 1,
-      amount: 250,
-      description: "groceries",
-      date: new Date(),
-    },
-    {
-      id: 2,
-      amount: 2504,
-      description: "car repair",
-      date: new Date(),
-    },
-    {
-      id: 3,
-      amount: 210,
-      description: "night out",
-      date: new Date(),
-    },
-    {
-      id: 4,
-      amount: 150,
-      description: "keyboard",
-      date: new Date(),
-    },
-  ];
+import React, { useState, useEffect } from "react";
+import { View, Text } from "react-native";
+import List from "../components/List";
+import tw from "twrnc";
+
+import { useContext } from "react";
+import { DataContext } from "./context/DataContext";
+
 const ExpensesList = () => {
-  return (
-    <List type= {"expense"} data={expensesList} />
-  )
-}
+  const dataContext = useContext(DataContext);
+  const [totalExp, setTotalExp] = useState();
+  const [expenses, setExpenses] = useState([]);
 
-export default ExpensesList
+  useEffect(() => {
+    calculateTotalExp();
+    // dataContext.setExpenses(dataContext.expenses)
+  }, [dataContext.expenses]);
+
+  const calculateTotalExp = () => {
+    let total = 0;
+    dataContext.expenses.forEach((item) => {
+      total += item.amount;
+    });
+    setTotalExp(total);
+  };
+
+  return (
+    <>
+      {/* <View style={tw`flex-1 items-center justify-center `}> */}
+      <Text style={tw`text-xl`}>Total: {totalExp} €</Text>
+      <List type={"expense"} data={dataContext.expenses} />
+      {/* </View>    */}
+    </>
+  );
+};
+
+export default ExpensesList;

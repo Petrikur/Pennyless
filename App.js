@@ -1,14 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import {
-  Text,
-  View,
-  Pressable,
-  Image,
-  TextInput,
-  SafeAreaView,
-} from "react-native";
-
-
+import { useContext } from "react";
 import tw from "twrnc";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,8 +9,11 @@ import HomeScreen from "./screens/HomeSceen";
 import { Ionicons } from "@expo/vector-icons";
 import ExpensesScreen from "./screens/ExpensesScreen";
 import IncomesScreen from "./screens/IncomesScreen";
+import { DataContextProvider } from "./components/context/DataContext";
+
 
 export default function App() {
+
   const Stack = createNativeStackNavigator();
   const BottomTabs = createBottomTabNavigator();
 
@@ -32,7 +26,7 @@ export default function App() {
           inactiveTintColor: "gray",
         }}
       >
-      <BottomTabs.Screen
+        <BottomTabs.Screen
           options={{
             title: "Home",
             tabBarLabel: "Home",
@@ -52,11 +46,11 @@ export default function App() {
             ),
           }}
           name="AddBudgetItem"
-          component={AddBudgetItem}r
+          component={AddBudgetItem}
+          r
         />
-         <BottomTabs.Screen
+        <BottomTabs.Screen
           options={{
-            style: tw`bg-black`,
             title: "inc",
             tabBarLabel: "Incom",
             tabBarIcon: ({ color, size }) => (
@@ -64,39 +58,42 @@ export default function App() {
             ),
           }}
           name="inc"
-          component={IncomesScreen}r
+          component={IncomesScreen}
+          r
         />
-         <BottomTabs.Screen
+        <BottomTabs.Screen
           options={{
             title: "exp",
             tabBarLabel: "exp",
             tabBarIcon: ({ color, size }) => (
-             
               <Ionicons name="cash-outline" color={color} size={size} />
             ),
           }}
           name="exp"
-          component={ExpensesScreen}r
+          component={ExpensesScreen}
+          r
         />
-        
       </BottomTabs.Navigator>
     );
   }
   return (
-    <>
-      <StatusBar />
-      <NavigationContainer>
-        <Stack.Navigator>
-          {/* Bottom tabs */}
-          <Stack.Screen
-            name="Overview"
-            component={Overview}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="AddBudgetItem" component={AddBudgetItem} />
-        </Stack.Navigator>
-      </NavigationContainer>
+  <>
+        <StatusBar />
+        <DataContextProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            {/* Bottom tabs */}
+            <Stack.Screen
+              name="Overview"
+              component={Overview}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="AddBudgetItem" component={AddBudgetItem} />
+          </Stack.Navigator>
+        </NavigationContainer>
+
+    </DataContextProvider>
     </>
   );
 }

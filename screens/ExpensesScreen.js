@@ -1,20 +1,16 @@
 // ExpensesScreen.js
 import React from "react";
 import { View, Text, Pressable, FlatList } from "react-native";
-import { Button } from "react-native-paper";
+import Button from "../components/UI/Button";
 import ExpensesList from "../components/ExpensesList";
-
-
+import tw from "twrnc";
 
 const ExpensesScreen = () => {
   return (
-    <View>
+    <View style={tw`flex-1 `}>
       <Text>Expenses</Text>
       <Text>Last 7 days</Text>
       <Text>350€</Text>
-      <Button>
-        <Text>Select date</Text>
-      </Button>
       <ExpensesList />
     </View>
   );

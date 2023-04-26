@@ -6,12 +6,9 @@ const HomeScreen = () => {
     
   return (
     <View >
-
         <Text>Last 7 days</Text>
         <Text>-45€</Text>
-
     </View>
   );
 };
-
 export default HomeScreen;
