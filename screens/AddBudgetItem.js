@@ -4,13 +4,16 @@ import tw from "twrnc";
 import Button from "../components/UI/Button";
 import { DataContext } from "../components/context/DataContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import CategorySelect from "../components/CategorySelect";
+
 const AddBudgetItem = () => {
   const { addIncome, addExpense } = useContext(DataContext);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState(new Date());
-  const [category, setCategory] = useState("income");
+  const [type, setType] = useState("income");
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [category,setCategory] = useState("");
 
   const handleDescChange = (description) => {
     setDescription(description);
@@ -25,12 +28,12 @@ const AddBudgetItem = () => {
     setShowDatePicker(false);
   };
 
-  const handleCategoryChange = (category) => {
-    setCategory(category);
+  const handletypeChange = (type) => {
+    setType(type);
   };
 
   useEffect(() => {
-    console.log("category: ", category);
+    console.log("type: ", type);
   });
 
   const handleAddBudgetItem = () => {
@@ -39,8 +42,9 @@ const AddBudgetItem = () => {
       description,
       date,
       id: Math.random().toString(),
+      category:category
     };
-    if (category === "income") {
+    if (type === "income") {
       addIncome(budgetItem);
     } else {
       addExpense(budgetItem);
@@ -48,29 +52,34 @@ const AddBudgetItem = () => {
     setDescription("");
     setAmount("");
     setDate(new Date());
-    setCategory("income");
+    setType("income");
   };
 
   const activeButtonStyle = tw`bg-green-500 text-white py-2 px-4 rounded-full`;
   const inactiveButtonStyle = tw`bg-gray-300 text-gray-500 py-2 px-4 rounded-full`;
 
+  const handleCategorySelect = (selectedCategory) => {
+    setCategory(selectedCategory);
+  };
+
   return (
     <View style={tw`mx-4 mt-2`}>
+     
       <View style={tw`flex flex-row mb-4 items-center justify-between `}>
         <TouchableOpacity
-          onPress={() => handleCategoryChange("income")}
+          onPress={() => handletypeChange("income")}
           style={[
             tw`flex-1 mr-2`,
-            category === "income" ? activeButtonStyle : inactiveButtonStyle,
+            type === "income" ? activeButtonStyle : inactiveButtonStyle,
           ]}
         >
           <Text>Income</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => handleCategoryChange("expense")}
+          onPress={() => handletypeChange("expense")}
           style={[
             tw`flex-1 ml-2`,
-            category === "expense" ? activeButtonStyle : inactiveButtonStyle,
+            type === "expense" ? activeButtonStyle : inactiveButtonStyle,
           ]}
         >
           <Text>Expense</Text>
@@ -109,6 +118,7 @@ const AddBudgetItem = () => {
           onCancel={() => setShowDatePicker(false)}
         />
       )}
+      <CategorySelect onCategorySelect={handleCategorySelect} />
       <Button title="Add Budget Item" onPress={handleAddBudgetItem} />
     </View>
   );

@@ -44,7 +44,7 @@ const List = ({ type, data }) => {
         <View style={tw`flex flex-row items-center justify-between`}>
           <View style={tw`flex-1`}>
             <Text style={tw`text-lg font-bold`}>
-              {itemData.item.description}
+              {itemData.item.description} ({itemData.item.category})
             </Text>
           </View>
           <View style={tw`flex-1 justify-end items-end`}>

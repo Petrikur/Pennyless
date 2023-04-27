@@ -9,8 +9,6 @@ const ExpensesScreen = () => {
   return (
     <View style={tw`flex-1 `}>
       <Text style= {tw`text-center`}>Expenses</Text>
-     
-
       <ExpensesList />
     </View>
   );
