@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { View, Text, Image } from "react-native";
 import tw from "twrnc";
 
+import { DataContext } from "../components/context/DataContext";
+
+import List from "../components/List";
+
 const HomeScreen = () => {
-    
+  const dataContext = useContext(DataContext);
+  const [data, setData] = useState([]);
+
+  // Merge lists
+  useEffect(() => {
+    const allData = [...dataContext.expenses, ...dataContext.incomes];
+    allData.sort((a, b) => b.date - a.date);
+    setData(allData);
+  }, [dataContext.expenses, dataContext.incomes]);
+
+  console.log(dataContext.expenses)
   return (
-    <View >
-        <Text>Last 7 days</Text>
-        <Text>-45€</Text>
+    <View style={tw`flex-1 `}>
+       <List type={"difference"} data={data} /> 
     </View>
   );
 };

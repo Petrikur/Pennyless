@@ -10,7 +10,6 @@ import { DataContext } from "./context/DataContext";
 
 const ExpensesList = () => {
   const dataContext = useContext(DataContext);
-
   return (
     <>
       <List type={"expense"} data={dataContext.expenses} />

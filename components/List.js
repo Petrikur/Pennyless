@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { View, Text, TextInput, FlatList, ScrollView } from "react-native";
 import tw from "twrnc";
 import Button from "./UI/Button";
+import { DataContext } from "./context/DataContext";
 
 const List = ({ type, data }) => {
-  let backGroundColor = type === "expense" ? "#ff9999" : "#b3ffb3";
-  let currency = "€";
+  const dataContext = useContext(DataContext);
   const [filter, setFilter] = useState("7");
   const [filteredData, setFilteredData] = useState(data);
   const [totalExp, setTotalExp] = useState();
+  const [currency,setCurrency] = useState("€")
+
   useEffect(() => {
     const today = new Date();
     const startDate = new Date(
@@ -17,28 +19,27 @@ const List = ({ type, data }) => {
     const filtered = data.filter(
       (item) => item.date >= startDate && item.date <= today
     );
-
     setFilteredData(filtered);
-  }, [filter, data]);
 
-  const calculateTotalExp = () => {
     let total = 0;
-    data.forEach((item) => {
-      total += item.amount;
+    filtered.forEach((item) => {
+      if (item.type === "expense") {
+        total -= item.amount;
+      } else {
+        total += item.amount;
+      }
     });
     setTotalExp(total);
-  };
-
-  useEffect(() => {
-    calculateTotalExp();
-    // dataContext.setExpenses(dataContext.expenses)
-  }, [totalExp]);
+  }, [filter, data]);
 
   const renderListItem = (itemData) => {
+    let backgroundColor =
+      itemData.item.type === "expense" ? "#ff9999" : "#b3ffb3";
+   
     return (
       <View
         height={100}
-        backgroundColor={backGroundColor}
+        backgroundColor={backgroundColor}
         style={tw`mb-2 p-4 w-95 items-center rounded justify-center flex`}
       >
         <View style={tw`flex flex-row items-center justify-between`}>
@@ -49,7 +50,8 @@ const List = ({ type, data }) => {
           </View>
           <View style={tw`flex-1 justify-end items-end`}>
             <Text style={tw`text-lg font-bold bg-white rounded p-2`}>
-              {type === "expense" ? "-" : "+"} {itemData.item.amount} {currency}
+              {itemData.item.type === "expense" ? "-" : "+"}{" "}
+              {itemData.item.amount} {currency}
             </Text>
           </View>
         </View>
@@ -68,9 +70,12 @@ const List = ({ type, data }) => {
       </View>
       <View style={tw`flex flex-col items-center justify-center `}>
         <Text style={tw`text-xl `}>
-        Total for {filter === "1" ? "today" : `${filter} days`}
+          Total for {filter === "1" ? "today" : `${filter} days`}
         </Text>
-        <Text style={tw`text-xl `}> {totalExp}</Text>
+        <Text style={tw`text-xl `}>
+          {" "}
+          {totalExp} {currency}
+        </Text>
       </View>
       <FlatList
         style={tw`flex-1`}

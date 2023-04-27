@@ -9,24 +9,31 @@ const incomesList = [
     description: "Salary",
     date: new Date(),
     category: "food",
+    type: "income",
   },
   {
     id: 2,
     amount: 2504,
     description: "Investments",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "income",
   },
   {
     id: 3,
     amount: 45,
     description: "Recycle",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "income",
   },
   {
     id: 4,
     amount: 45,
     description: "Recycle",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "income",
   },
 ];
 const expensesList = [
@@ -34,61 +41,81 @@ const expensesList = [
     id: 6,
     amount: 250,
     description: "groceries",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
   {
     id: 7,
     amount: 350,
     description: "groceries",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
   {
     id: 8,
     amount: 450,
     description: "groceries",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
   {
     id: 3535,
     amount: 550,
     description: "asd",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
   {
     id: 324,
     amount: 650,
     description: "32a",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
   {
     id: 1,
     amount: 250,
     description: "groceries",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
   {
     id: 2,
     amount: 2504,
     description: "car repair",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
   {
     id: 3,
     amount: 210,
     description: "night out",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
   {
     id: 4,
     amount: 150,
     description: "keyboard",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
   {
     id: 5,
     amount: 150,
     description: "last",
-    date: new Date(),category: "food",
+    date: new Date(),
+    category: "food",
+    type: "expense",
   },
 ];
 
@@ -158,16 +185,6 @@ export const DataContextProvider = ({ children }) => {
     dispatch({ type: "SET_INCOMES", payload: incomes });
   };
 
-//   const totalIncome = state.incomes.reduce(
-//     (total, income) => total + income.amount,
-//     0
-//   );
-//   const totalExpense = state.expenses.reduce(
-//     (total, expense) => total + expense.amount,
-//     0
-//   );
-//   const balance = totalIncome - totalExpense;
-
   return (
     <DataContext.Provider
       value={{
@@ -177,11 +194,8 @@ export const DataContextProvider = ({ children }) => {
         addExpense,
         removeIncome,
         removeExpense,
-        // totalIncome,
-        // totalExpense,
-        // balance,
         setExpenses,
-        setIncomes
+        setIncomes,
       }}
     >
       {children}

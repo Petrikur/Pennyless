@@ -13,7 +13,7 @@ const AddBudgetItem = () => {
   const [date, setDate] = useState(new Date());
   const [type, setType] = useState("income");
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [category,setCategory] = useState("");
+  const [category, setCategory] = useState("");
 
   const handleDescChange = (description) => {
     setDescription(description);
@@ -42,11 +42,12 @@ const AddBudgetItem = () => {
       description,
       date,
       id: Math.random().toString(),
-      category:category
+      category: category,
+      type: type,
     };
     if (type === "income") {
       addIncome(budgetItem);
-    } else {
+    } else if (type === "expense") {
       addExpense(budgetItem);
     }
     setDescription("");
@@ -64,7 +65,6 @@ const AddBudgetItem = () => {
 
   return (
     <View style={tw`mx-4 mt-2`}>
-     
       <View style={tw`flex flex-row mb-4 items-center justify-between `}>
         <TouchableOpacity
           onPress={() => handletypeChange("income")}
