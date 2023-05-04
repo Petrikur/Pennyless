@@ -2,10 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { View, Text, TextInput, FlatList, ScrollView } from "react-native";
 import tw from "twrnc";
 import Button from "./UI/Button";
-import { DataContext } from "./context/DataContext";
+// import { DataContext } from "./context/DataContext";
 
 const List = ({ type, data }) => {
-  const dataContext = useContext(DataContext);
+  // const dataContext = useContext(DataContext);
   const [filter, setFilter] = useState("7");
   const [filteredData, setFilteredData] = useState(data);
   const [totalExp, setTotalExp] = useState();
