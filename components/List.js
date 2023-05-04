@@ -35,27 +35,28 @@ const List = ({ type, data }) => {
   const renderListItem = (itemData) => {
     let backgroundColor =
       itemData.item.type === "expense" ? "#ff9999" : "#b3ffb3";
+      let amountColor = itemData.item.type === "income" ? "text-green-400" : "text-red-400"
    
     return (
       <View
         height={100}
         backgroundColor={backgroundColor}
-        style={tw`mb-2 p-4 w-95 items-center rounded justify-center flex`}
+        style={tw`mb-2 p-4 w-95 items-center rounded justify-center flex bg-gray-700 `}
       >
         <View style={tw`flex flex-row items-center justify-between`}>
           <View style={tw`flex-1`}>
-            <Text style={tw`text-lg font-bold`}>
+            <Text style={tw`text-lg font-bold text-white `}>
               {itemData.item.description} ({itemData.item.category})
             </Text>
           </View>
           <View style={tw`flex-1 justify-end items-end`}>
-            <Text style={tw`text-lg font-bold bg-white rounded p-2`}>
+            <Text style={tw`text-lg font-bold  p-2  bg-gray-800 border-white border rounded-md ${amountColor}`}>
               {itemData.item.type === "expense" ? "-" : "+"}{" "}
               {itemData.item.amount} {currency}
             </Text>
           </View>
         </View>
-        <Text>{itemData.item.date.toLocaleDateString()}</Text>
+        <Text style={tw`text-white`}>{itemData.item.date.toLocaleDateString()}</Text>
       </View>
     );
   };

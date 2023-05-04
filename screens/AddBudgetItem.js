@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import tw from "twrnc";
 import Button from "../components/UI/Button";
 import { DataContext } from "../components/context/DataContext";
@@ -63,7 +63,10 @@ const AddBudgetItem = () => {
     setCategory(selectedCategory);
   };
 
-  return (
+  return ( <ScrollView
+    keyboardShouldPersistTaps="handled"
+    contentContainerStyle={{ flexGrow: 1 }}
+  >
     <View style={tw`mx-4 mt-2`}>
       <View style={tw`flex flex-row mb-4 items-center justify-between `}>
         <TouchableOpacity
@@ -120,7 +123,8 @@ const AddBudgetItem = () => {
       )}
       <CategorySelect onCategorySelect={handleCategorySelect} />
       <Button title="Add Budget Item" onPress={handleAddBudgetItem} />
-    </View>
+    </View> 
+     </ScrollView>
   );
 };
 
