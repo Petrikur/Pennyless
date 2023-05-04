@@ -21,12 +21,24 @@ const categories = [
   "Other",
 ];
 
+// const expenseCategories = [
+//   "Groceries",
+//   "Transportation",
+//   "Entertainment",
+//   "Utilities",
+//   "Rent",
+//   "Insurance",
+//   "Medical",
+//   "Food",
+//   "Other",
+// ]
+
 const CategorySelect = ({ onCategorySelect }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [category, setCategory] = useState("");
   const [showCategoryInput, setShowCategoryInput] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const handleCategoryChange = (value) => {
     setCategory(value);
   };

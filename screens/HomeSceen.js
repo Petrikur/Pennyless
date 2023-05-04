@@ -17,7 +17,6 @@ const HomeScreen = () => {
     setData(allData);
   }, [dataContext.expenses, dataContext.incomes]);
 
-  console.log(dataContext.expenses)
   return (
     <View style={tw`flex-1 `}>
        <List type={"difference"} data={data} /> 

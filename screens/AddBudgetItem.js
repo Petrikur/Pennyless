@@ -32,9 +32,7 @@ const AddBudgetItem = () => {
     setType(type);
   };
 
-  useEffect(() => {
-    console.log("type: ", type);
-  });
+
 
   const handleAddBudgetItem = () => {
     const budgetItem = {
