@@ -13,7 +13,7 @@ const AddBudgetItem = () => {
   const [date, setDate] = useState(new Date());
   const [type, setType] = useState("income");
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(null);
 
   const handleDescChange = (description) => {
     setDescription(description);
@@ -23,18 +23,16 @@ const AddBudgetItem = () => {
     setAmount(amount);
   };
 
-  const handleDateChange = (date) => {
-    setDate(date);
-    setShowDatePicker(false);
-  };
-
   const handletypeChange = (type) => {
     setType(type);
   };
 
-
-
   const handleAddBudgetItem = () => {
+
+    if (!description || !amount || !category) {
+      alert('Please fill all required fields.');
+      return;
+    }
     const budgetItem = {
       amount: Number(amount),
       description,
@@ -92,6 +90,7 @@ const AddBudgetItem = () => {
         value={description}
         onChangeText={handleDescChange}
         style={tw`border border-gray-400 rounded py-2 px-3 `}
+        required
       />
       <Text>Amount:</Text>
       <TextInput
@@ -99,6 +98,7 @@ const AddBudgetItem = () => {
         onChangeText={handleAmountChange}
         style={tw`border border-gray-400 rounded py-2 px-3`}
         keyboardType="numeric"
+        required
       />
       <Text>Date:</Text>
       <TouchableOpacity
@@ -119,8 +119,8 @@ const AddBudgetItem = () => {
           onCancel={() => setShowDatePicker(false)}
         />
       )}
-      <CategorySelect onCategorySelect={handleCategorySelect} />
-      <Button title="Add Budget Item" onPress={handleAddBudgetItem} />
+      <CategorySelect type={type} onCategorySelect={handleCategorySelect} />
+     {category !== null &&  <Button title="Add Budget Item" onPress={handleAddBudgetItem} />}
     </View> 
      </ScrollView>
   );

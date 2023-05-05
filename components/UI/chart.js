@@ -59,8 +59,9 @@ const Chart = ({ data }) => {
         accessor={"population"}
         backgroundColor={"transparent"}
         // paddingLeft={15}
-        center={[10, 40]}
+        center={[10, 0]}
         absolute
+
       />
     </View>
   );
