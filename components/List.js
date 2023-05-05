@@ -2,14 +2,14 @@ import React, { useEffect, useState, useContext } from "react";
 import { View, Text, TextInput, FlatList, ScrollView } from "react-native";
 import tw from "twrnc";
 import Button from "./UI/Button";
-// import { DataContext } from "./context/DataContext";
+import { DataContext } from "./context/DataContext";
 
 const List = ({ type, data }) => {
-  // const dataContext = useContext(DataContext);
+  const dataContext = useContext(DataContext);
   const [filter, setFilter] = useState("7");
   const [filteredData, setFilteredData] = useState(data);
   const [totalExp, setTotalExp] = useState();
-  const [currency,setCurrency] = useState("€")
+  const [currency, setCurrency] = useState("€");
 
   useEffect(() => {
     const today = new Date();
@@ -19,6 +19,11 @@ const List = ({ type, data }) => {
     const filtered = data.filter(
       (item) => item.date >= startDate && item.date <= today
     );
+    if (type === "expense") {
+      dataContext.setFilteredContextExpenses(filtered);
+    } else if (type === "income") {
+      dataContext.setFilteredContextIncomes(filtered);
+    }
     setFilteredData(filtered);
 
     let total = 0;
@@ -35,8 +40,9 @@ const List = ({ type, data }) => {
   const renderListItem = (itemData) => {
     let backgroundColor =
       itemData.item.type === "expense" ? "#ff9999" : "#b3ffb3";
-      let amountColor = itemData.item.type === "income" ? "text-green-400" : "text-red-400"
-   
+    let amountColor =
+      itemData.item.type === "income" ? "text-green-400" : "text-red-400";
+
     return (
       <View
         height={100}
@@ -50,13 +56,17 @@ const List = ({ type, data }) => {
             </Text>
           </View>
           <View style={tw`flex-1 justify-end items-end`}>
-            <Text style={tw`text-lg font-bold  p-2  bg-gray-800 border-white border rounded-md ${amountColor}`}>
+            <Text
+              style={tw`text-lg font-bold  p-2  bg-gray-800 border-white border rounded-md ${amountColor}`}
+            >
               {itemData.item.type === "expense" ? "-" : "+"}{" "}
               {itemData.item.amount} {currency}
             </Text>
           </View>
         </View>
-        <Text style={tw`text-white`}>{itemData.item.date.toLocaleDateString()}</Text>
+        <Text style={tw`text-white`}>
+          {itemData.item.date.toLocaleDateString()}
+        </Text>
       </View>
     );
   };

@@ -19,19 +19,12 @@ const categories = [
   "Medical",
   "Food",
   "Other",
+  "Salary",
+  "Investments",
+  "Rental income",
+  "Freelancing",
+  "Capital"
 ];
-
-// const expenseCategories = [
-//   "Groceries",
-//   "Transportation",
-//   "Entertainment",
-//   "Utilities",
-//   "Rent",
-//   "Insurance",
-//   "Medical",
-//   "Food",
-//   "Other",
-// ]
 
 const CategorySelect = ({ onCategorySelect }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);

@@ -30,6 +30,7 @@ const Chart = ({ data }) => {
     useShadowColorFromDataset: false,
   };
 
+  console.log(data)
   const expensesByCategory = data.reduce((acc, expense) => {
     if (acc[expense.category]) {
       acc[expense.category] += expense.amount;
@@ -57,8 +58,8 @@ const Chart = ({ data }) => {
         chartConfig={chartConfig}
         accessor={"population"}
         backgroundColor={"transparent"}
-        paddingLeft={"15"}
-        center={[10, 50]}
+        // paddingLeft={15}
+        center={[10, 40]}
         absolute
       />
     </View>

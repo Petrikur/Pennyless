@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useReducer, useState } from "react";
 
 export const DataContext = createContext();
 
@@ -161,6 +161,8 @@ const reducer = (state, action) => {
 
 export const DataContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [filteredContextExpenses, setFilteredContextExpenses] = useState(state.expenses);
+  const [filteredContextIncomes, setFilteredContextIncomes] = useState(state.incomes);
 
   const addIncome = (income) => {
     dispatch({ type: "ADD_INCOME", payload: income });
@@ -184,6 +186,7 @@ export const DataContextProvider = ({ children }) => {
   const setIncomes = (incomes) => {
     dispatch({ type: "SET_INCOMES", payload: incomes });
   };
+  
 
   return (
     <DataContext.Provider
@@ -196,6 +199,10 @@ export const DataContextProvider = ({ children }) => {
         removeExpense,
         setExpenses,
         setIncomes,
+        setFilteredContextExpenses,
+        filteredContextExpenses,
+        setFilteredContextIncomes,
+        filteredContextIncomes
       }}
     >
       {children}
