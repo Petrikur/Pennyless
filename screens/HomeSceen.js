@@ -18,7 +18,7 @@ const HomeScreen = () => {
   }, [dataContext.expenses, dataContext.incomes]);
 
   return (
-    <View style={tw`flex-1 `}>
+    <View style={tw`flex-1 bg-gray-800`}>
        <List type={"difference"} data={data} /> 
     </View>
   );

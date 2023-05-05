@@ -13,8 +13,7 @@ const ExpensesScreen = () => {
 
   const dataContext = useContext(DataContext);
   return (
-    <View style={tw`flex-1 `}>
-      <Text style={tw`text-center`}>Expenses</Text>
+    <View style={tw`flex-1 bg-gray-800 `}>
       <Chart data={dataContext.filteredContextExpenses} />
       <List type={"expense"} data={dataContext.expenses} />
     </View>

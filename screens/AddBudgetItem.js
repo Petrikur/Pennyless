@@ -1,5 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import tw from "twrnc";
 import Button from "../components/UI/Button";
 import { DataContext } from "../components/context/DataContext";
@@ -28,9 +34,8 @@ const AddBudgetItem = () => {
   };
 
   const handleAddBudgetItem = () => {
-
     if (!description || !amount || !category) {
-      alert('Please fill all required fields.');
+      alert("Please fill all required fields.");
       return;
     }
     const budgetItem = {
@@ -59,70 +64,83 @@ const AddBudgetItem = () => {
     setCategory(selectedCategory);
   };
 
-  return ( <ScrollView
-    keyboardShouldPersistTaps="handled"
-    contentContainerStyle={{ flexGrow: 1 }}
-  >
-    <View style={tw`mx-4 mt-2`}>
-      <View style={tw`flex flex-row mb-4 items-center justify-between `}>
-        <TouchableOpacity
-          onPress={() => handletypeChange("income")}
-          style={[
-            tw`flex-1 mr-2`,
-            type === "income" ? activeButtonStyle : inactiveButtonStyle,
-          ]}
-        >
-          <Text>Income</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => handletypeChange("expense")}
-          style={[
-            tw`flex-1 ml-2`,
-            type === "expense" ? activeButtonStyle : inactiveButtonStyle,
-          ]}
-        >
-          <Text>Expense</Text>
-        </TouchableOpacity>
-      </View>
+  return (
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
+    >
+      <View style={tw` bg-gray-800 py-5 px-4 flex-1`}>
+        <View style={tw`flex flex-row mb-4 items-center justify-between `}>
+          <TouchableOpacity
+            onPress={() => handletypeChange("income")}
+            style={[
+              tw`flex-1 mr-2`,
+              type === "income" ? activeButtonStyle : inactiveButtonStyle,
+            ]}
+          >
+            <Text>Income</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handletypeChange("expense")}
+            style={[
+              tw`flex-1`,
+              type === "expense" ? activeButtonStyle : inactiveButtonStyle,
+            ]}
+          >
+            <Text>Expense</Text>
+          </TouchableOpacity>
+        </View>
 
-      <Text>Description:</Text>
-      <TextInput
-        value={description}
-        onChangeText={handleDescChange}
-        style={tw`border border-gray-400 rounded py-2 px-3 `}
-        required
-      />
-      <Text>Amount:</Text>
-      <TextInput
-        value={amount}
-        onChangeText={handleAmountChange}
-        style={tw`border border-gray-400 rounded py-2 px-3`}
-        keyboardType="numeric"
-        required
-      />
-      <Text>Date:</Text>
-      <TouchableOpacity
-        onPress={() => setShowDatePicker(true)}
-        style={tw`border border-gray-400 rounded py-2 px-3`}
-      >
-        <Text>{date.toLocaleDateString()}</Text>
-      </TouchableOpacity>
-      {showDatePicker && (
-        <DateTimePicker
-          modal
-          value={date}
-          onChange={(event, selectedDate) => {
-            const currentDate = selectedDate || date;
-            setDate(currentDate);
-            setShowDatePicker(false);
-          }}
-          onCancel={() => setShowDatePicker(false)}
+        <Text style={tw`text-white`}>Description:</Text>
+        <TextInput
+          placeholder={`Description for new ${type}...`}
+          placeholderTextColor={"white"}
+          value={description}
+          onChangeText={handleDescChange}
+          style={tw`border border-gray-400 rounded py-2 px-3 text-white `}
+          required
         />
-      )}
-      <CategorySelect type={type} onCategorySelect={handleCategorySelect} />
-     {category !== null &&  <Button title="Add Budget Item" onPress={handleAddBudgetItem} />}
-    </View> 
-     </ScrollView>
+        <Text style={tw`text-white`}>Amount:</Text>
+        <TextInput
+          placeholderTextColor={"white"}
+          placeholder="Amount..."
+          value={amount}
+          onChangeText={handleAmountChange}
+          style={tw`border border-gray-400 rounded py-2 px-3`}
+          keyboardType="numeric"
+          required
+        />
+        <Text style={tw`text-white`}>Date:</Text>
+        <TouchableOpacity
+          onPress={() => setShowDatePicker(true)}
+          style={tw`border border-gray-400 rounded py-2 px-3`}
+        >
+          <Text style={tw`text-white`}>{date.toLocaleDateString()}</Text>
+        </TouchableOpacity>
+        {showDatePicker && (
+          <DateTimePicker
+            modal
+            value={date}
+            onChange={(event, selectedDate) => {
+              const currentDate = selectedDate || date;
+              setDate(currentDate);
+              setShowDatePicker(false);
+            }}
+            onCancel={() => setShowDatePicker(false)}
+          />
+        )}
+        <CategorySelect type={type} onCategorySelect={handleCategorySelect} />
+        {category !== null && (
+          <TouchableOpacity
+            style={tw` bg-gray-800 py-2 rounded-l items-center mt-4 border-4 border-gray-700`}
+            onPress={handleAddBudgetItem}
+          >
+            <Text style={tw`text-white text-base`}>Add item</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      {/* <Button title="Add Budget Item" onPress={handleAddBudgetItem} /> */}
+    </ScrollView>
   );
 };
 

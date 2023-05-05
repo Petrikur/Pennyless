@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import tw from "twrnc";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -10,90 +10,86 @@ import { Ionicons } from "@expo/vector-icons";
 import ExpensesScreen from "./screens/ExpensesScreen";
 import IncomesScreen from "./screens/IncomesScreen";
 import { DataContextProvider } from "./components/context/DataContext";
-
+import { View } from "react-native";
+import { StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
-
   const Stack = createNativeStackNavigator();
-  const BottomTabs = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator();
 
-  function Overview() {
+  const tabIcons = {
+    Home: "home",
+    Add: "add-circle-outline",
+    Incomes: "cash-outline",
+    Expenses: "cash-outline",
+  };
+  const getTabBarIcon = (routeName) => {
+    const iconName = tabIcons[routeName];
+    return <Ionicons name={iconName} size={25} />;
+  };
+
+  function HomeStack() {
     return (
-      <BottomTabs.Navigator
-        screenOptions={{
-          style: tw`bg-white`,
-          activeTintColor: "red",
-          inactiveTintColor: "gray",
-        }}
-      >
-        <BottomTabs.Screen
-          options={{
-            title: "Home",
-            tabBarLabel: "Home",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="home" color={color} size={size} />
-            ),
-          }}
-          name="HomeScreen"
-          component={HomeScreen}
-        />
-        <BottomTabs.Screen
-          options={{
-            title: "Add item",
-            tabBarLabel: "Add",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="add-circle-outline" color={color} size={size} />
-            ),
-          }}
-          name="AddBudgetItem"
-          component={AddBudgetItem}
-          r
-        />
-        <BottomTabs.Screen
-          options={{
-            title: "inc",
-            tabBarLabel: "Incom",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="cash-outline" color={color} size={size} />
-            ),
-          }}
-          name="inc"
-          component={IncomesScreen}
-          r
-        />
-        <BottomTabs.Screen
-          options={{
-            title: "exp",
-            tabBarLabel: "exp",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="cash-outline" color={color} size={size} />
-            ),
-          }}
-          name="exp"
-          component={ExpensesScreen}
-          r
-        />
-      </BottomTabs.Navigator>
+      <Stack.Navigator>
+        <Stack.Screen name="HomeStack" component={HomeScreen} />
+      </Stack.Navigator>
     );
   }
-  return (
-  <>
-        <StatusBar />
-        <DataContextProvider>
-        <NavigationContainer>
-          <Stack.Navigator>
-            {/* Bottom tabs */}
-            <Stack.Screen
-              name="Overview"
-              component={Overview}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="AddBudgetItem" component={AddBudgetItem} />
-          </Stack.Navigator>
-        </NavigationContainer>
 
+  function AddBudgetItemStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="AddBudgetItemStack" component={AddBudgetItem} />
+      </Stack.Navigator>
+    );
+  }
+
+  function IncomesStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="IncomesStack" component={IncomesScreen} />
+      </Stack.Navigator>
+    );
+  }
+
+  function ExpensesStack() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="ExpensesStack" component={ExpensesScreen} />
+      </Stack.Navigator>
+    );
+  }
+
+  return (
+    <>
+    <StatusBar />
+    <DataContextProvider>
+      <NavigationContainer style={{ flex: 1, backgroundColor: "#333f4e" }}>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarActiveBackgroundColor: "#FFFFFF",
+            tabBarInactiveBackgroundColor: "#333f4e",
+            tabBarLabelStyle: tw`text-sm text-black`,
+            tabBarIcon: ({ focused, size, color }) =>
+              getTabBarIcon(route.name, focused, size, color),
+          })}
+        >
+          <Tab.Screen name="Home" component={HomeStack} />
+          <Tab.Screen name="Add" component={AddBudgetItemStack} />
+          <Tab.Screen name="Incomes" component={IncomesStack} />
+          <Tab.Screen name="Expenses" component={ExpensesStack} />
+        </Tab.Navigator>
+      </NavigationContainer>
     </DataContextProvider>
-    </>
+  </>
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000000', // Set your desired background color here
+   
+  },
+});

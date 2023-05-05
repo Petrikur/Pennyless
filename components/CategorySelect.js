@@ -71,7 +71,7 @@ const CategorySelect = ({ onCategorySelect, type }) => {
           selectedCategory !== category && tw`opacity-50 `,
         ]}
       >
-        <Text style={tw`text-sm font-bold `}>{category}</Text>
+        <Text style={tw`text-sm font-bold text-white `}>{category}</Text>
       </TouchableOpacity>
     ));
   };
@@ -86,10 +86,11 @@ const CategorySelect = ({ onCategorySelect, type }) => {
   };
 
   return (
-    <View style={tw`mx-4 mt-2`}>
+    <View style={tw`mx-4 mt-2 `}>
       <TextInput
-        style={tw`border border-gray-400 rounded py-2 px-3 mb-2`}
+        style={tw`border border-gray-400 rounded py-2 px-3 mb-2 text-white`}
         placeholder="Search Categories"
+        placeholderTextColor={"white"}
         onChangeText={handleSearch}
       />
       <View style={tw`flex flex-row flex-wrap mb-2`}>
@@ -110,7 +111,7 @@ const CategorySelect = ({ onCategorySelect, type }) => {
       </View>
       {showCategoryInput && (
         <>
-          <Text>Add New Category:</Text>
+          <Text style={tw`text-white`}>Add New Category:</Text>
           <TextInput
             value={category}
             onChangeText={handleCategoryChange}

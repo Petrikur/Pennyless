@@ -57,7 +57,7 @@ const List = ({ type, data }) => {
           </View>
           <View style={tw`flex-1 justify-end items-end`}>
             <Text
-              style={tw`text-lg font-bold  p-2  bg-gray-800 border-white border rounded-md ${amountColor}`}
+              style={tw`text-lg font-bold  p-2  bg-gray-800 rounded-md ${amountColor}`}
             >
               {itemData.item.type === "expense" ? "-" : "+"}{" "}
               {itemData.item.amount} {currency}
@@ -70,20 +70,22 @@ const List = ({ type, data }) => {
       </View>
     );
   };
+  
 
   return (
     <View style={tw`flex-1 h-5/6`}>
-      <View style={tw`flex flex-row items-center justify-center gap-2 mb-5`}>
+      <Text style = {tw`text-center font-bold text-lg text-white`}>Select filter</Text>
+      <View style={tw`flex flex-row items-center justify-evenly mb-5`}>
         <Button onPress={() => setFilter("1")} title="Today" />
         <Button onPress={() => setFilter("7")} title="7 Days" />
         <Button onPress={() => setFilter("30")} title="30 Days" />
         <Button onPress={() => setFilter("365")} title="365 Days" />
       </View>
-      <View style={tw`flex flex-col items-center justify-center `}>
-        <Text style={tw`text-xl `}>
+      <View style={tw`flex flex-col items-center justify-center border border-white rounded mx-20 py-2 mb-4 `}>
+        <Text style={tw`text-xl text-white `}>
           Total for {filter === "1" ? "today" : `${filter} days`}
         </Text>
-        <Text style={tw`text-xl `}>
+        <Text style={tw`text-xl text-white `}>
           {" "}
           {totalExp} {currency}
         </Text>

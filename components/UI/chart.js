@@ -30,14 +30,12 @@ const Chart = ({ data }) => {
     useShadowColorFromDataset: false,
   };
 
-  console.log(data)
   const expensesByCategory = data.reduce((acc, expense) => {
     if (acc[expense.category]) {
       acc[expense.category] += expense.amount;
     } else {
       acc[expense.category] = expense.amount;
     }
-    console.log("acc:", acc);
     return acc;
   }, {});
 
