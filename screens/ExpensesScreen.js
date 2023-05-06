@@ -13,10 +13,11 @@ const ExpensesScreen = () => {
 
   const dataContext = useContext(DataContext);
   return (
+    <ScrollView>
     <View style={tw`flex-1 bg-gray-800 `}>
       <Chart data={dataContext.filteredContextExpenses} />
       <List type={"expense"} data={dataContext.expenses} />
-    </View>
+    </View></ScrollView>
   );
 };
 

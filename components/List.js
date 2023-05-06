@@ -3,6 +3,7 @@ import { View, Text, TextInput, FlatList, ScrollView } from "react-native";
 import tw from "twrnc";
 import Button from "./UI/Button";
 import { DataContext } from "./context/DataContext";
+import { LinearGradient } from "expo-linear-gradient";
 
 const List = ({ type, data }) => {
   const dataContext = useContext(DataContext);
@@ -38,58 +39,66 @@ const List = ({ type, data }) => {
   }, [filter, data]);
 
   const renderListItem = (itemData) => {
-    let backgroundColor =
-      itemData.item.type === "expense" ? "#ff9999" : "#b3ffb3";
+  
     let amountColor =
       itemData.item.type === "income" ? "text-green-400" : "text-red-400";
 
     return (
-      <View
-        height={100}
-        backgroundColor={backgroundColor}
-        style={tw`mb-2 p-4 w-95 items-center rounded justify-center flex bg-gray-700 `}
+      <LinearGradient
+        colors={["#2d3748", "#1a202c"]}
+        style={tw`rounded-lg mb-4 border border-dotted border-white `}
       >
-        <View style={tw`flex flex-row items-center justify-between`}>
-          <View style={tw`flex-1`}>
-            <Text style={tw`text-lg font-bold text-white `}>
-              {itemData.item.description} ({itemData.item.category})
-            </Text>
+        <View
+          height={90}
+          style={tw`mb-2 p-4 w-90 items-center rounded justify-center flex `}
+        >
+          <View style={tw`flex flex-row items-center justify-between`}>
+            <View style={tw`flex-1`}>
+              <Text style={tw`text-lg font-bold text-white `}>
+                {itemData.item.description} ({itemData.item.category})
+              </Text>
+            </View>
+            <View style={tw`flex-1 justify-end items-end`}>
+              <Text
+                style={tw`text-lg font-bold  p-2  bg-gray-800 rounded-md ${amountColor}`}
+              >
+                {itemData.item.type === "expense" ? "-" : "+"}
+                {itemData.item.amount} {currency}
+              </Text>
+            </View>
           </View>
-          <View style={tw`flex-1 justify-end items-end`}>
-            <Text
-              style={tw`text-lg font-bold  p-2  bg-gray-800 rounded-md ${amountColor}`}
-            >
-              {itemData.item.type === "expense" ? "-" : "+"}{" "}
-              {itemData.item.amount} {currency}
-            </Text>
-          </View>
+          <Text style={tw`text-white`}>
+            {itemData.item.date.toLocaleDateString()}
+          </Text>
         </View>
-        <Text style={tw`text-white`}>
-          {itemData.item.date.toLocaleDateString()}
-        </Text>
-      </View>
+      </LinearGradient>
     );
   };
-  
 
   return (
     <View style={tw`flex-1 h-5/6`}>
-      <Text style = {tw`text-center font-bold text-lg text-white`}>Select filter</Text>
+      <Text style={tw`text-center font-bold text-lg text-white`}>
+        Select filter
+      </Text>
       <View style={tw`flex flex-row items-center justify-evenly mb-5`}>
         <Button onPress={() => setFilter("1")} title="Today" />
         <Button onPress={() => setFilter("7")} title="7 Days" />
         <Button onPress={() => setFilter("30")} title="30 Days" />
         <Button onPress={() => setFilter("365")} title="365 Days" />
       </View>
-      <View style={tw`flex flex-col items-center justify-center border border-white rounded mx-20 py-2 mb-4 `}>
-        <Text style={tw`text-xl text-white `}>
-          Total for {filter === "1" ? "today" : `${filter} days`}
-        </Text>
-        <Text style={tw`text-xl text-white `}>
-          {" "}
-          {totalExp} {currency}
-        </Text>
-      </View>
+      <LinearGradient
+        colors={["#4B5563", "#1F2937"]}
+        style={tw`rounded-lg mb-4`}
+      >
+        <View style={tw`flex flex-col items-center justify-center px-6 py-4`}>
+          <Text style={tw`text-xl font-bold text-white mb-2`}>
+            Total for {filter === "1" ? "today" : `${filter} days`}
+          </Text>
+          <Text style={tw`text-3xl font-bold text-yellow-300`}>
+            {totalExp} {currency}
+          </Text>
+        </View>
+      </LinearGradient>
       <FlatList
         style={tw`flex-1`}
         data={filteredData}
