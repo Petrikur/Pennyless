@@ -7,7 +7,6 @@ import {
   ScrollView,
 } from "react-native";
 import tw from "twrnc";
-import Button from "../components/UI/Button";
 import { DataContext } from "../components/context/DataContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import CategorySelect from "../components/CategorySelect";
@@ -69,7 +68,7 @@ const AddBudgetItem = () => {
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
     >
-      <View style={tw` bg-gray-800 py-5 px-4 flex-1`}>
+      <View style={tw` bg-gray-800 py-5 px-3 flex-1`}>
         <View style={tw`flex flex-row mb-4 items-center justify-between `}>
           <TouchableOpacity
             onPress={() => handletypeChange("income")}
@@ -106,7 +105,7 @@ const AddBudgetItem = () => {
           placeholder="Amount..."
           value={amount}
           onChangeText={handleAmountChange}
-          style={tw`border border-gray-400 rounded py-2 px-3`}
+          style={tw`border border-gray-400 rounded py-2 px-3 text-white`}
           keyboardType="numeric"
           required
         />
@@ -135,11 +134,10 @@ const AddBudgetItem = () => {
             style={tw` bg-gray-800 py-2 rounded-l items-center mt-4 border-4 border-gray-700`}
             onPress={handleAddBudgetItem}
           >
-            <Text style={tw`text-white text-base`}>Add item</Text>
+            <Text style={tw`text-white text-base font-bold`}>Add item</Text>
           </TouchableOpacity>
         )}
       </View>
-      {/* <Button title="Add Budget Item" onPress={handleAddBudgetItem} /> */}
     </ScrollView>
   );
 };

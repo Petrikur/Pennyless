@@ -5,7 +5,7 @@ import { Button } from "react-native-paper";
 import List from "../components/List";
 import { DataContext } from "../components/context/DataContext";
 import Chart from "../components/UI/chart";
-import { ScrollView } from "react-navigation";
+import { ScrollView } from "react-native";
 
 const IncomesScreen = () => {
   const dataContext = useContext(DataContext);
