@@ -6,49 +6,12 @@ import Button from "./UI/Button";
 import Icon from "react-native-vector-icons/Ionicons";
 import { StyleSheet } from "react-native";
 import CategoryModal from "./UI/CategoryModal";
-const expenseCategories = [
-  "Groceries",
-  "Transportation",
-  "Entertainment",
-  "Utilities",
-  "Rent",
-  "Insurance",
-  "Medical",
-  "Restaurant",
-  "Other",
-  "Investments",
-  "Bills",
-];
 
-const incomeCategories = [
-  "Rental income",
-  "Freelancing",
-  "Capital",
-  "Salary",
-  "Investments",
-  "Other",
-];
-const categoryIcons = {
-  Groceries: { name: "ios-cart-outline", color: "#E53E3E" },
-  Transportation: { name: "ios-car-outline", color: "#DD6B20" },
-  Entertainment: { name: "ios-film-outline", color: "#D69E2E" },
-  Utilities: { name: "ios-flash-outline", color: "#38A169" },
-  Rent: { name: "ios-home-outline", color: "#4F46E5" },
-  Insurance: { name: "ios-medkit-outline", color: "#6B7280" },
-  Medical: { name: "ios-medical-outline", color: "#C53030" },
-  Restaurant: { name: "ios-restaurant-outline", color: "#F6E05E" },
-  Other: { name: "ios-grid-outline", color: "#9CA3AF" },
-  Investments: { name: "ios-trending-up-outline", color: "#10B981" },
-  Bills: { name: "ios-paper-outline", color: "#6366F1" },
-  "Rental income": { name: "md-home", color: "#F6AD55" },
-  Freelancing: { name: "md-cash", color: "#FC8181" },
-  Capital: { name: "md-cash", color: "#E53E3E" },
-  Salary: { name: "md-card", color: "#4FD1C5" },
-  Investments: { name: "md-stats-chart", color: "#319795" },
-  Other: { name: "md-grid", color: "#9CA3AF" },
-};
+import {defaultCategoryIcons} from "../assets/categories.js"
+import {incomeCategories} from "../assets/categories.js"
+import { expenseCategories } from "../assets/categories.js";
 
-const CategorySelect = ({ onCategorySelect, type, label, onSelect }) => {
+const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [category, setCategory] = useState("");
   const [showCategoryInput, setShowCategoryInput] = useState(false);
@@ -58,6 +21,7 @@ const CategorySelect = ({ onCategorySelect, type, label, onSelect }) => {
   const handleCategoryChange = (value) => {
     setCategory(value);
   };
+
 
   useEffect(() => {
     console.log("selected", selectedCategory);
@@ -82,6 +46,7 @@ const CategorySelect = ({ onCategorySelect, type, label, onSelect }) => {
     setSearchQuery(query);
   };
 
+
   const categoriesByType = type === "income" ? incomeCategories : expenseCategories;
   const generateCategoryButtons = (
     selectedCategory,
@@ -93,14 +58,14 @@ const CategorySelect = ({ onCategorySelect, type, label, onSelect }) => {
         key={category}
         onPress={() => handleCategorySelect(category)}
         style={[
-          tw`  w-20 h-20 p-4 justify-center items-center  `,
+          tw`w-20 h-20 p-4 justify-center items-center`,
           selectedCategory === category && tw` bg-gray-600  `,
           selectedCategory !== category && tw`opacity-40 `,
         ]}
       >
         <Icon
-          name={categoryIcons[category].name}
-          color={categoryIcons[category].color}
+          name={defaultCategoryIcons[category].name}
+          color={defaultCategoryIcons[category].color}
           size={34}
         />
         <Text
@@ -125,6 +90,7 @@ const CategorySelect = ({ onCategorySelect, type, label, onSelect }) => {
     );
     return <>{categoryButtons}</>;
   };
+  
 
   return (
     <View style={tw` mt-2 `}>
@@ -137,6 +103,8 @@ const CategorySelect = ({ onCategorySelect, type, label, onSelect }) => {
           onCategorySelect={handleCategorySelect}
           categories={categoriesByType}
           onCloseModal={() => setModalVisible(false)}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible} 
         ></CategoryModal>
       )}
       {/* Button container  */}

@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   TextInput,
   Modal,
+  FlatList,
 } from "react-native";
 import tw from "twrnc";
 import Icon from "react-native-vector-icons/Ionicons";
 import Button from "./Button";
+import { BackHandler } from 'react-native';
+import {newCategoryIcons}  from "../../assets/categories.js"
 
 const CategoryModal = ({
-  visible,
+  modalVisible,
   onCategorySelect,
   onCatChange,
   onCloseModal,
@@ -19,8 +22,13 @@ const CategoryModal = ({
   selectedCategory,
   category,
   onSaveNewCat,
+  setModalVisible
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedIcon, setSelectedIcon] = useState(newCategoryIcons[0]);
+  const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
+  const [isSearching, setIsSeaching] = useState(true);
+  
   const CategoryItem = ({ category }) => (
     <TouchableOpacity
       onPress={() => onCategorySelect(category)}
@@ -53,44 +61,137 @@ const CategoryModal = ({
   const filteredCategories = categories.filter((category) =>
     category.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  const categoryItems = filteredCategories.map((category) => (
-    <CategoryItem key={category} category={category} />
-  ));
+  const renderCatItem = ({ item }) => {
+    return <CategoryItem category={item} />;
+  };
+
+  const handleSetSearch = () => {
+    setIsSeaching(true);
+    setIsAddingNewCategory(false);
+  };
+
+  const handleAddingNewCat = () => {
+    setIsSeaching(false);
+    setIsAddingNewCategory(true);
+  };
+
+  
+  const handleBackButton = () => {
+    setModalVisible(false);
+    
+  };
+  
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackButton
+    );
+    return () => backHandler.remove();
+  }, []);
 
   return (
-    <Modal animationType="slide" visible={visible}>
-      <View style={tw`bg-gray-800 px-4 py-10`}>
-        <Text style={tw`text-white text-2xl `}>Add New Category:</Text>
-        <TextInput
-          onChangeText={onCatChange}
-          placeholder={"Name for new category"}
-          placeholderTextColor={"white"}
-          style={tw`border border-gray-400 rounded p-2 mb-4 mt-2 text-white`}
-        />
-        <View style={tw`flex flex-row items-center justify-between `}>
-          <Button title="Cancel" onPress={() => setShowCategoryInput(false)} />
-          <Button title="Add Category" onPress={() => onSaveNewCat(category)} />
+
+      <Modal
+        animationType="slide"
+        visible={modalVisible}
+        style={tw` bg-black h-full items-center justify-center`}
+        onRequestClose={handleBackButton}
+      >
+        {/* Open category new category button */}
+        <View style={tw`bg-gray-800 pt-12 items-center gap-4 flex-1 `}>
+
+        <View style={tw`flex items-center justify-center gap-2 `}>
+          <Text style={tw`text-white text-3xl font-bold pb-2`}>
+            Select category
+          </Text>
+
+         { !isSearching && <TouchableOpacity
+            style={tw`bg-gray-800 border-white border w-2/4 rounded-full px-4 py-2 items-center shadow-md`}
+            onPress={handleSetSearch}
+          >
+            <Text style={tw`text-white font-bold text-lg`}>
+              Search category
+            </Text>
+          </TouchableOpacity>}
+          
+          { !isAddingNewCategory && <TouchableOpacity
+            style={tw`bg-gray-800 border-white border w-2/4 rounded-full px-4 py-2 items-center shadow-md`}
+            onPress={handleAddingNewCat}
+          >
+            <Text style={tw`text-white font-bold text-lg `}>Create new </Text>
+          </TouchableOpacity>}
         </View>
-      </View>
-      <View style={tw`flex-1 p-4 justify-center bg-gray-800`}>
+
+        {isAddingNewCategory && (
+          <View style={tw`bg-gray-800 px-4`}>
+            <Text style={tw`text-white text-2xl pb-4 `}>Add New Category:</Text>
+            <TextInput
+              onChangeText={onCatChange}
+              placeholder={"Name for new category"}
+              placeholderTextColor={"white"}
+              style={tw`border border-gray-400 rounded p-2 mb-4  text-white`}
+            />
+            <Text style={tw`text-white text-center text-bold`}>
+              Add icon for your category!
+            </Text>
+            <View style={tw`flex flex-row flex-wrap p-2`}>
+              {newCategoryIcons.map((item) => (
+                <TouchableOpacity
+                  key={item.name}
+                  onPress={() => setSelectedIcon(item)}
+                  style={tw`p-3 ${
+                    selectedIcon.name === item.name ? "bg-gray-400" : ""
+                  }`}
+                >
+                  <Icon name={item.name} color={item.color} size={40} />
+                </TouchableOpacity>
+              ))}
+            </View>
+            <View
+              style={tw`flex flex-row items-center justify-between pb-20 bg-gray-800 `}
+            >
+              <Button
+                title="Cancel"
+                onPress={() => setShowCategoryInput(false)}
+              />
+              <Button
+                title="Add Category"
+                onPress={() => onSaveNewCat(category)}
+              />
+            </View>
+          </View>
+        
+        )}
+
+        {/* Search for categories  */}
+        {isSearching && (
+          <View style={tw`p-6 flex w-full justify-center bg-gray-800 `}>
+            <View style={tw`mt-4`}>
+              <TextInput
+                style={tw`border border-gray-400 rounded py-2 px-3 mb-2 text-white`}
+                placeholder="Search Categories"
+                placeholderTextColor={"white"}
+                onChangeText={(value) => handleSearch(value)}
+                value={searchQuery}
+              />
+              <FlatList
+                data={filteredCategories}
+                renderItem={renderCatItem}
+                keyExtractor={(item) => item}
+              />
+            </View>
+          </View>
+        )}
+        {/* Close modal button */}
         <TouchableOpacity
           onPress={onCloseModal}
-          style={tw`self-end px-2 py-1 rounded-md`}
+          style={tw`absolute top-0 right-0 mt-2 mr-4 p-2`}
         >
-          <Text style={tw`text-gray-400`}>Close</Text>
+          <Icon name="close" size={32} color="white" />
         </TouchableOpacity>
-        <View style={tw`mt-4`}>
-          <TextInput
-            style={tw`border border-gray-400 rounded py-2 px-3 mb-2 text-white`}
-            placeholder="Search Categories"
-            placeholderTextColor={"white"}
-            onChangeText={(value) => handleSearch(value)}
-            value={searchQuery}
-          />
-          {categoryItems}
         </View>
-      </View>
-    </Modal>
+      </Modal>
+  
   );
 };
 
