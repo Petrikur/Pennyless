@@ -9,7 +9,7 @@ export const defaultCategoryIcons = {
     Restaurant: { name: "ios-restaurant-outline", color: "#F6E05E" },
     Other: { name: "ios-grid-outline", color: "#9CA3AF" },
     Investments: { name: "ios-trending-up-outline", color: "#10B981" },
-    Bills: { name: "ios-paper-outline", color: "#6366F1" },
+    Bills: { name: "ios-grid-outline", color: "#6366F1" },
     "Rental income": { name: "md-home", color: "#F6AD55" },
     Freelancing: { name: "md-cash", color: "#FC8181" },
     Capital: { name: "md-cash", color: "#E53E3E" },

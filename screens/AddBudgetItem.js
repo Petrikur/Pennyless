@@ -74,14 +74,14 @@ const AddBudgetItem = () => {
           <TouchableOpacity
             onPress={() => handletypeChange("income")}
             style={[
-              tw`flex-1 mr-2 bg-red`,
+              tw`flex-1 mr-2 `,
               type === "income" ? activeButtonStyle : "",
               tw`shadow-md`,
             ]}
           >
             <View
              style={[
-                tw`flex flex-row items-center justify-center gap-2 bg-white p-3 rounded-lg 00`,
+                tw`flex flex-row items-center justify-center gap-2 bg-white p-3 rounded-lg`,
                 type === "income" ? activeButtonStyle : "",
               ]}
             >

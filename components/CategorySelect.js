@@ -7,26 +7,33 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { StyleSheet } from "react-native";
 import CategoryModal from "./UI/CategoryModal";
 
-import {defaultCategoryIcons} from "../assets/categories.js"
-import {incomeCategories} from "../assets/categories.js"
+import { defaultCategoryIcons } from "../assets/categories.js";
+import { incomeCategories } from "../assets/categories.js";
 import { expenseCategories } from "../assets/categories.js";
 
 const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [category, setCategory] = useState("");
-  const [showCategoryInput, setShowCategoryInput] = useState(false);
+  // const [showCategoryInput, setShowCategoryInput] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [categoryList, setCategoryList] = useState(type === "income" ? incomeCategories : expenseCategories);
+  const [categoryList, setCategoryList] = useState([]);
+  const [userCreatedCategories, setUserCreatedCategories] = useState([]);
+  const [userCategoryIcons, setUserCategoryIcons] = useState([]);
 
   const handleCategoryChange = (value) => {
     setCategory(value);
   };
 
   useEffect(() => {
- 
-    console.log("CAT LIST: ", categoryList)
-  }, [selectedCategory,categoryList]);
+    const defaultCategories =
+      type === "income" ? incomeCategories : expenseCategories;
+    const allCategories = [...userCreatedCategories, ...defaultCategories];
+    setCategoryList(allCategories);
+  }, [type, userCreatedCategories]);
+
+  useEffect(() => {
+  }, [selectedCategory]);
 
   const handleSelectedCategory = (category) => {
     setSelectedCategory(category);
@@ -34,17 +41,25 @@ const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
   };
 
   const saveNewCategory = (category) => {
- 
-  }
+    setUserCreatedCategories((prev) => [category.name, ...prev]);
+
+    setUserCategoryIcons((prev) => ({
+      [category.name]: category.icon,
+      ...prev,
+    }));
+    setCategoryList((prev) => {
+      return [category.name, ...prev];
+    });
+    handleCategorySelect(category.name);
+    setSelectedCategory(category.name);
+  };
 
   const handleCategorySelect = (category) => {
-
     onCategorySelect(category);
     handleSelectedCategory(category);
   };
 
   const handleAddNewPress = () => {
-    // setShowCategoryInput(true);
     setModalVisible(true);
   };
 
@@ -52,56 +67,39 @@ const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
     setSearchQuery(query);
   };
 
+  const generateCategoryButtons = (selectedCategory, maxButtons) => {
+    return categoryList.slice(0, maxButtons).map((category) => {
+      const icon =
+        userCategoryIcons[category] ?? defaultCategoryIcons[category];
 
-  const categoriesByType = type === "income" ? incomeCategories : expenseCategories;
-
-  const generateCategoryButtons = (
-    selectedCategory,
-    handleCategorySelect,
-    maxButtons,
- 
-  ) => {
-
-    // const allCategories = [...Object.keys(defaultCategoryIcons), ...userCategories];
-    return categoryList.slice(0, maxButtons).map((category) => (
-      <TouchableOpacity
-        key={category}
-        onPress={() => handleCategorySelect(category)}
-        style={[
-          tw`w-20 h-20 p-4 justify-center items-center`,
-          selectedCategory === category && tw` bg-gray-700 rounded-lg  `,
-          selectedCategory !== category && tw`opacity-40 `,
-        ]}
-      >
-        <Icon
-          name={defaultCategoryIcons[category].name}
-          color={defaultCategoryIcons[category].color}
-          size={34}
-        />
-        <Text
-          numberOfLines={selectedCategory === category ? 2 : 1}
-          style={tw`text-xs text-center  text-white `}
+      return (
+        <TouchableOpacity
+          key={category}
+          onPress={() => handleCategorySelect(category)}
+          style={[
+            tw`w-20 h-20 p-4 justify-center items-center`,
+            selectedCategory === category && tw` bg-gray-700 rounded-lg  `,
+            selectedCategory !== category && tw`opacity-40 `,
+          ]}
         >
-          {category}
-        </Text>
-      </TouchableOpacity>
-    ));
-   
+          <Icon name={icon.name} color={icon.color} size={34} />
+          <Text
+            numberOfLines={selectedCategory === category ? 2 : 1}
+            style={tw`text-xs text-center  text-white `}
+          >
+            {category}
+          </Text>
+        </TouchableOpacity>
+      );
+    });
   };
-
-  const CategoryButtons = ({
-    selectedCategory,
-    handleCategorySelect,
-    maxButtons,
-  }) => {
+  const CategoryButtons = ({ selectedCategory, maxButtons }) => {
     const categoryButtons = generateCategoryButtons(
       selectedCategory,
-      handleCategorySelect,
       maxButtons
     );
     return <>{categoryButtons}</>;
   };
-  
 
   return (
     <View style={tw` mt-2 `}>
@@ -109,20 +107,21 @@ const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
         <CategoryModal
           handleSearch={handleSearch}
           category={category}
-          onSaveNewCat={handleCategorySelect}
+          onSaveNewCat={saveNewCategory}
           onCatChange={handleCategoryChange}
           onCategorySelect={handleCategorySelect}
-          categories={categoriesByType}
+          categories={categoryList}
           onCloseModal={() => setModalVisible(false)}
           modalVisible={modalVisible}
-          setModalVisible={setModalVisible} 
+          setModalVisible={setModalVisible}
         ></CategoryModal>
       )}
       {/* Button container  */}
       <Text style={tw`text-white text-center font-bold`}>Select category</Text>
-      <View style={tw` mt-4 flex flex-row flex-wrap  justify-around items-center`}>
+      <View
+        style={tw` mt-4 flex flex-row flex-wrap  justify-around items-center`}
+      >
         <CategoryButtons
-          type={type}
           selectedCategory={selectedCategory}
           handleCategorySelect={handleSelectedCategory}
           maxButtons={7}

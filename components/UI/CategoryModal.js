@@ -29,6 +29,7 @@ const CategoryModal = ({
   const [isAddingNewCategory, setIsAddingNewCategory] = useState(false);
   const [isSearching, setIsSeaching] = useState(true);
   
+  
   const CategoryItem = ({ category }) => (
     <TouchableOpacity
       onPress={() => onCategorySelect(category)}
@@ -75,7 +76,6 @@ const CategoryModal = ({
     setIsAddingNewCategory(true);
   };
 
-  
   const handleBackButton = () => {
     setModalVisible(false);
     
@@ -87,7 +87,15 @@ const CategoryModal = ({
       handleBackButton
     );
     return () => backHandler.remove();
-  }, []);
+  }, [selectedIcon]);
+
+  const handleAddNewCategory = () => {
+    const newCategory = {
+      name: category,
+      icon: selectedIcon,
+    };
+    onSaveNewCat(newCategory)
+  }
 
   return (
 
@@ -156,7 +164,7 @@ const CategoryModal = ({
               />
               <Button
                 title="Add Category"
-                onPress={() => onSaveNewCat(category)}
+                onPress={() => handleAddNewCategory(category)}
               />
             </View>
           </View>
