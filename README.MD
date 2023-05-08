@@ -3,7 +3,7 @@ The Budget App is a simple mobile application i am developing with React Native.
 
 App is currently developed towards android platform and im planning to do IOS also later. 
 
-You can find few images of the current progress [here](https://github.com/Petrikur/Pennyless/tree/main/images).
+You can find few images of the current progress [here](https://github.com/Petrikur/Pennyless/tree/main/assets/images).
 
 ## Features
 - Add new expenses and incomes
