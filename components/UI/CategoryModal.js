@@ -131,7 +131,7 @@ const CategoryModal = ({
               placeholderTextColor={"white"}
               style={tw`border border-gray-400 rounded p-2 mb-4  text-white`}
             />
-            <Text style={tw`text-white text-center text-bold`}>
+            <Text style={tw`text-white text-center font-bold`}>
               Add icon for your category!
             </Text>
             <View style={tw`flex flex-row flex-wrap p-2`}>
@@ -148,11 +148,11 @@ const CategoryModal = ({
               ))}
             </View>
             <View
-              style={tw`flex flex-row items-center justify-between pb-20 bg-gray-800 `}
+              style={tw`flex flex-row items-center justify-between  pb-20 bg-gray-800 `}
             >
               <Button
                 title="Cancel"
-                onPress={() => setShowCategoryInput(false)}
+                onPress={() => setModalVisible(false)}
               />
               <Button
                 title="Add Category"

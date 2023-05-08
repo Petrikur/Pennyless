@@ -10,6 +10,8 @@ import tw from "twrnc";
 import { DataContext } from "../components/context/DataContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import CategorySelect from "../components/CategorySelect";
+import Icon from "react-native-vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
 
 const AddBudgetItem = () => {
   const { addIncome, addExpense } = useContext(DataContext);
@@ -56,37 +58,60 @@ const AddBudgetItem = () => {
     setType("income");
   };
 
-  const activeButtonStyle = tw`bg-green-500 text-white py-2 px-4 rounded-full`;
-  const inactiveButtonStyle = tw`bg-gray-300 text-gray-500 py-2 px-4 rounded-full`;
-
   const handleCategorySelect = (selectedCategory) => {
     setCategory(selectedCategory);
   };
 
+  const activeButtonStyle = tw`shadow-md bg-green-400 rounded-lg `;
+
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ flexGrow: 1, backgroundColor: "white" }}
+      contentContainerStyle={{ flexGrow: 1 }}
     >
-      <View style={tw` bg-gray-800 py-5 px-3 flex-1`}>
+      <View style={tw`bg-gray-800 py-5 px-3 flex-1`}>
         <View style={tw`flex flex-row mb-4 items-center justify-between `}>
           <TouchableOpacity
             onPress={() => handletypeChange("income")}
             style={[
-              tw`flex-1 mr-2`,
-              type === "income" ? activeButtonStyle : inactiveButtonStyle,
+              tw`flex-1 mr-2 bg-red`,
+              type === "income" ? activeButtonStyle : "",
+              tw`shadow-md`,
             ]}
           >
-            <Text>Income</Text>
+            <View
+             style={[
+                tw`flex flex-row items-center justify-center gap-2 bg-white p-3 rounded-lg 00`,
+                type === "income" ? activeButtonStyle : "",
+              ]}
+            >
+              <Icon name="md-arrow-down" color="#38A169" size={30} />
+              <Text style={tw`font-bold text-center text-lg text-black`}>
+                Income
+              </Text>
+            </View>
           </TouchableOpacity>
+
           <TouchableOpacity
             onPress={() => handletypeChange("expense")}
             style={[
-              tw`flex-1`,
-              type === "expense" ? activeButtonStyle : inactiveButtonStyle,
+              tw`flex-1 mr-2`,
+              type === "expense" ? activeButtonStyle : "",
+              tw`shadow-md`,
             ]}
+            
           >
-            <Text>Expense</Text>
+            <View
+              style={[
+                tw`flex flex-row items-center justify-center gap-2 bg-white p-3 rounded-lg`,
+                type === "expense" ? activeButtonStyle : "",
+              ]}
+            >
+              <Icon name="md-arrow-up" color="#E53E3E" size={30} />
+              <Text style={tw`font-bold text-center text-lg text-black`}>
+                Expense
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
 

@@ -17,22 +17,28 @@ const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
   const [showCategoryInput, setShowCategoryInput] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [categoryList, setCategoryList] = useState(type === "income" ? incomeCategories : expenseCategories);
 
   const handleCategoryChange = (value) => {
     setCategory(value);
   };
 
-
   useEffect(() => {
-    console.log("selected", selectedCategory);
-  }, [selectedCategory]);
+ 
+    console.log("CAT LIST: ", categoryList)
+  }, [selectedCategory,categoryList]);
 
   const handleSelectedCategory = (category) => {
     setSelectedCategory(category);
     setModalVisible(false);
   };
 
+  const saveNewCategory = (category) => {
+ 
+  }
+
   const handleCategorySelect = (category) => {
+
     onCategorySelect(category);
     handleSelectedCategory(category);
   };
@@ -48,18 +54,22 @@ const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
 
 
   const categoriesByType = type === "income" ? incomeCategories : expenseCategories;
+
   const generateCategoryButtons = (
     selectedCategory,
     handleCategorySelect,
-    maxButtons
+    maxButtons,
+ 
   ) => {
-    return categoriesByType.slice(0, maxButtons).map((category) => (
+
+    // const allCategories = [...Object.keys(defaultCategoryIcons), ...userCategories];
+    return categoryList.slice(0, maxButtons).map((category) => (
       <TouchableOpacity
         key={category}
         onPress={() => handleCategorySelect(category)}
         style={[
           tw`w-20 h-20 p-4 justify-center items-center`,
-          selectedCategory === category && tw` bg-gray-600  `,
+          selectedCategory === category && tw` bg-gray-700 rounded-lg  `,
           selectedCategory !== category && tw`opacity-40 `,
         ]}
       >
@@ -76,6 +86,7 @@ const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
         </Text>
       </TouchableOpacity>
     ));
+   
   };
 
   const CategoryButtons = ({
