@@ -11,7 +11,7 @@ import { defaultCategoryIcons } from "../assets/categories.js";
 import { incomeCategories } from "../assets/categories.js";
 import { expenseCategories } from "../assets/categories.js";
 
-const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
+const CategorySelect = ({ onCategorySelect, type, setType, label, onIconSelect }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [category, setCategory] = useState("");
   // const [showCategoryInput, setShowCategoryInput] = useState(false);
@@ -28,12 +28,13 @@ const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
   useEffect(() => {
     const defaultCategories =
       type === "income" ? incomeCategories : expenseCategories;
-    const allCategories = [...userCreatedCategories, ...defaultCategories];
+    const allCategories = [ ...userCreatedCategories, ...defaultCategories ];
     setCategoryList(allCategories);
   }, [type, userCreatedCategories]);
 
   useEffect(() => {
-  }, [selectedCategory]);
+    setSelectedCategory(null)
+  }, [type]);
 
   const handleSelectedCategory = (category) => {
     setSelectedCategory(category);
@@ -68,7 +69,20 @@ const CategorySelect = ({ onCategorySelect, type, label, onIconSelect }) => {
   };
 
   const generateCategoryButtons = (selectedCategory, maxButtons) => {
-    return categoryList.slice(0, maxButtons).map((category) => {
+
+    // Set selected category as first item in icons
+    const displayedCategories = categoryList.slice(0, maxButtons);
+    let categories = [...categoryList];
+    if (selectedCategory && !categories.includes(selectedCategory)) {
+      categories.unshift(selectedCategory);
+    }
+  
+    if (selectedCategory && !displayedCategories.includes(selectedCategory)) {
+      categories = categories.filter((category) => category !== selectedCategory);
+      categories.unshift(selectedCategory);
+    }
+
+    return categories.slice(0, maxButtons).map((category) => {
       const icon =
         userCategoryIcons[category] ?? defaultCategoryIcons[category];
 

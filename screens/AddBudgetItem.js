@@ -12,8 +12,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import CategorySelect from "../components/CategorySelect";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from '@react-navigation/native';
 
-const AddBudgetItem = () => {
+
+const AddBudgetItem = ({navigation}) => {
   const { addIncome, addExpense } = useContext(DataContext);
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
@@ -32,6 +34,7 @@ const AddBudgetItem = () => {
 
   const handletypeChange = (type) => {
     setType(type);
+  
   };
 
   const handleAddBudgetItem = () => {
@@ -49,13 +52,17 @@ const AddBudgetItem = () => {
     };
     if (type === "income") {
       addIncome(budgetItem);
+      navigation.navigate('Incomes');
     } else if (type === "expense") {
       addExpense(budgetItem);
+      navigation.navigate('Expenses'); 
     }
     setDescription("");
     setAmount("");
     setDate(new Date());
     setType("income");
+
+    navigation
   };
 
   const handleCategorySelect = (selectedCategory) => {
