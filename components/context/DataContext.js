@@ -3,19 +3,19 @@ import React, { createContext, useReducer, useState } from "react";
 export const DataContext = createContext();
 
 const incomesList = [
-  {
-    id: 1,
-    amount: 3000,
-    description: "Salary",
-    date: new Date(),
-    category: "Salary",
-    type: "income",
-  },
+  // {
+  //   id: 1,
+  //   amount: 3000,
+  //   description: "Salary",
+  //   date: new Date(),
+  //   category: "Salary",
+  //   type: "income",
+  // },
   {
     id: 2,
     amount: 2504,
     description: "Crypto",
-    date: new Date(),
+    date: new Date("2023-04-28T00:00:00"),
     category: "Investments",
     type: "income",
   },
@@ -23,7 +23,7 @@ const incomesList = [
     id: 3,
     amount: 45,
     description: "Recycle",
-    date: new Date(),
+    date: new Date("2023-05-02T00:00:00"),
     category: "Other",
     type: "income",
   },
@@ -31,17 +31,18 @@ const incomesList = [
     id: 4,
     amount: 45,
     description: "Groceries",
-    date: new Date(),
+    date: new Date("2023-04-27T00:00:00"),
     category: "Food",
     type: "income",
   },
 ];
+
 const expensesList = [
   {
     id: 6,
     amount: 250,
     description: "Toiletries",
-    date: new Date(),
+    date: new Date("2023-04-10T12:00:00Z"),
     category: "Utilities",
     type: "expense",
   },
@@ -49,7 +50,7 @@ const expensesList = [
     id: 7,
     amount: 350,
     description: "Invest",
-    date: new Date(),
+    date: new Date("2023-04-12T12:00:00Z"),
     category: "Investments",
     type: "expense",
   },
@@ -57,7 +58,7 @@ const expensesList = [
     id: 8,
     amount: 450,
     description: "cigarette",
-    date: new Date(),
+    date: new Date("2023-04-15T12:00:00Z"),
     category: "Other",
     type: "expense",
   },
@@ -65,7 +66,7 @@ const expensesList = [
     id: 3535,
     amount: 550,
     description: "new pc",
-    date: new Date(),
+    date: new Date("2023-04-20T12:00:00Z"),
     category: "Other",
     type: "expense",
   },
@@ -73,7 +74,7 @@ const expensesList = [
     id: 324,
     amount: 650,
     description: "Restaurant",
-    date: new Date(),
+    date: new Date("2023-05-01T12:00:00Z"),
     category: "Food",
     type: "expense",
   },
@@ -81,7 +82,7 @@ const expensesList = [
     id: 1,
     amount: 250,
     description: "Doctor appointment",
-    date: new Date(),
+    date: new Date("2023-05-05T12:00:00Z"),
     category: "Health",
     type: "expense",
   },
@@ -89,7 +90,7 @@ const expensesList = [
     id: 2,
     amount: 2504,
     description: "car repair",
-    date: new Date(),
+    date: new Date("2023-05-06T12:00:00Z"),
     category: "Utilities",
     type: "expense",
   },
@@ -97,7 +98,7 @@ const expensesList = [
     id: 3,
     amount: 210,
     description: "night out",
-    date: new Date(),
+    date: new Date("2023-05-08T12:00:00Z"),
     category: "Entertainment",
     type: "expense",
   },
@@ -105,7 +106,7 @@ const expensesList = [
     id: 4,
     amount: 150,
     description: "Car insurance",
-    date: new Date(),
+    date: new Date("2023-05-09T12:00:00Z"),
     category: "Insurance",
     type: "expense",
   },
@@ -113,7 +114,7 @@ const expensesList = [
     id: 5,
     amount: 20,
     description: "Bus ride",
-    date: new Date(),
+    date: new Date("2023-05-09T12:00:00Z"),
     category: "Transportation",
     type: "expense",
   },
@@ -166,10 +167,16 @@ export const DataContextProvider = ({ children }) => {
 
   const addIncome = (income) => {
     dispatch({ type: "ADD_INCOME", payload: income });
+    setFilteredContextIncomes((prev) => {
+      return[...prev, income]
+    })
   };
 
   const addExpense = (expense) => {
     dispatch({ type: "ADD_EXPENSE", payload: expense });
+    setFilteredContextExpenses((prev) => {
+      return[...prev, expense]
+    })
   };
 
   const removeIncome = (index) => {

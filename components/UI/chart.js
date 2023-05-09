@@ -1,8 +1,9 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 import { Dimensions } from "react-native";
 import { PieChart } from "react-native-chart-kit";
-
+import tw from "twrnc";
+import Icon from "react-native-vector-icons/Ionicons";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -18,7 +19,7 @@ const colorMap = {
   Health: "#E91E63",
 };
 
-const Chart = ({ data }) => {
+const Chart = ({ data,navigation }) => {
   const chartConfig = {
     backgroundGradientFrom: "#1E2923",
     backgroundGradientFromOpacity: 0,
@@ -30,7 +31,7 @@ const Chart = ({ data }) => {
     useShadowColorFromDataset: false,
   };
 
-  const expensesByCategory = data.reduce((acc, expense) => {
+  const dataByCat = data.reduce((acc, expense) => {
     if (acc[expense.category]) {
       acc[expense.category] += expense.amount;
     } else {
@@ -39,9 +40,9 @@ const Chart = ({ data }) => {
     return acc;
   }, {});
 
-  const chartData = Object.keys(expensesByCategory).map((category) => ({
+  const chartData = Object.keys(dataByCat).map((category) => ({
     name: category,
-    population: expensesByCategory[category],
+    population: dataByCat[category],
     color: colorMap[category] || "#FFFFFF",
     legendFontColor: "#7F7F7F",
     legendFontSize: 15,
@@ -49,18 +50,40 @@ const Chart = ({ data }) => {
 
   return (
     <View>
-      <PieChart
-        data={chartData}
-        width={windowWidth}
-        height={220}
-        chartConfig={chartConfig}
-        accessor={"population"}
-        backgroundColor={"transparent"}
-        // paddingLeft={15}
-        center={[10, 0]}
-        absolute
+      {data.length !== 0 ? (
+        <PieChart
+          data={chartData}
+          width={windowWidth}
+          height={220}
+          chartConfig={chartConfig}
+          accessor={"population"}
+          backgroundColor={"transparent"}
+          // paddingLeft={15}
+          center={[10, 0]}
+          absolute
+        />
+      ) : (
+        <View style={tw`mb-30 `}>
+          <Text style={tw`font-bold text-center text-3xl text-white p-10`}>
+            There is no data
+          </Text>
 
-      />
+          <View style={tw`flex flex-row justify-center items-center`}>
+            <TouchableOpacity
+              style={tw`bg-white w-2/4 rounded-md p-3 flex flex-row justify-center items-center`}
+              onPress={() => navigation.navigate("Add")}
+            >
+              <Icon
+                name="add-circle-outline"
+                color="#38A169"
+                size={30}
+                style={tw`mr-2`}
+              />
+              <Text style={tw`font-bold text-center text-xl`}>Add new ?</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
     </View>
   );
 };

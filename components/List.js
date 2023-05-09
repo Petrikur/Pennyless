@@ -1,9 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
-import { View, Text, TextInput, FlatList, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  ScrollView,
+ 
+} from "react-native";
 import tw from "twrnc";
 import Button from "./UI/Button";
 import { DataContext } from "./context/DataContext";
 import { LinearGradient } from "expo-linear-gradient";
+import { TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const List = ({ type, data }) => {
   const dataContext = useContext(DataContext);
@@ -39,7 +48,6 @@ const List = ({ type, data }) => {
   }, [filter, data]);
 
   const renderListItem = (itemData) => {
-  
     let amountColor =
       itemData.item.type === "income" ? "text-green-400" : "text-red-400";
 
@@ -76,7 +84,7 @@ const List = ({ type, data }) => {
   };
 
   return (
-    <View style={tw`flex-1 h-5/6`}>
+    <View style={tw`flex-1 h-4/6 pb-6`}>
       <Text style={tw`text-center font-bold text-lg text-white`}>
         Select filter
       </Text>
@@ -90,24 +98,46 @@ const List = ({ type, data }) => {
         colors={["#4B5563", "#1F2937"]}
         style={tw`rounded-lg mb-4`}
       >
-        <View style={tw`flex flex-col items-center justify-center px-6 py-4`}>
-          <Text style={tw`text-xl font-bold text-white mb-2`}>
+        <View style={tw`flex flex-col items-center justify-center px-6 pt-2`}>
+          <Text style={tw`text-xl font-bold text-white mb-2 `}>
             Total for {filter === "1" ? "today" : `${filter} days`}
           </Text>
           <Text style={tw`text-3xl font-bold text-yellow-300`}>
-            {totalExp} {currency}
+            {Number(totalExp).toFixed(2)} {currency}
           </Text>
         </View>
       </LinearGradient>
+     
       <FlatList
-        style={tw`flex-1`}
+        style={tw`flex-1 mb-4 min-h-50`}
         data={filteredData}
         renderItem={renderListItem}
         keyExtractor={(item, index) => index.toString()}
-        contentContainerStyle={tw`p-4`}
+        contentContainerStyle={tw`pt-1 px-2`}
         showsVerticalScrollIndicator={false}
         flexGrow={1}
       />
+ 
+     
+        {/* Add more button  */}
+        {filteredData.length > 1 && 
+       ( <View style={tw`flex-row justify-center`}>
+        <TouchableOpacity
+        onPress={() => {alert("Eikö osu eiköö")}}
+          style={tw` `}
+    
+        >
+          <View
+            style={tw`flex flex-row items-center justify-center gap-2 bg-white p-3 rounded-lg`}
+          >
+            <Icon name="add-circle-outline" color="#38A169" size={30} />
+            <Text style={tw`font-bold text-center text-lg text-black`}>
+              Load more
+            </Text>
+          </View>
+        </TouchableOpacity>
+        </View>)}
+       
     </View>
   );
 };

@@ -5,6 +5,7 @@ import tw from "twrnc";
 import { DataContext } from "../components/context/DataContext";
 
 import List from "../components/List";
+import { ScrollView } from "react-native-gesture-handler";
 
 const HomeScreen = () => {
   const dataContext = useContext(DataContext);
@@ -18,9 +19,11 @@ const HomeScreen = () => {
   }, [dataContext.expenses, dataContext.incomes]);
 
   return (
-    <View style={tw`flex-1 bg-gray-800`}>
-       <List type={"difference"} data={data} /> 
-    </View>
+    <ScrollView>
+      <View style={tw`flex-1 bg-gray-800`}>
+        <List type={"difference"} data={data} />
+      </View>
+    </ScrollView>
   );
 };
 export default HomeScreen;

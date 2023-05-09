@@ -6,6 +6,7 @@ import {
   TextInput,
   Modal,
   FlatList,
+  ScrollView,
 } from "react-native";
 import tw from "twrnc";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -105,6 +106,7 @@ const CategoryModal = ({
         style={tw` bg-black h-full items-center justify-center`}
         onRequestClose={handleBackButton}
       >
+    
         {/* Open category new category button */}
         <View style={tw`bg-gray-800 pt-12 items-center gap-4 flex-1 `}>
 
@@ -172,8 +174,11 @@ const CategoryModal = ({
         )}
 
         {/* Search for categories  */}
+    
         {isSearching && (
-          <View style={tw`p-6 flex w-full justify-center bg-gray-800 `}>
+       
+          <View style={tw`p-6 flex w-full h-full justify-center bg-gray-800 `}>
+         
             <View style={tw`mt-4`}>
               <TextInput
                 style={tw`border border-gray-400 rounded py-2 px-3 mb-2 text-white`}
@@ -182,13 +187,17 @@ const CategoryModal = ({
                 onChangeText={(value) => handleSearch(value)}
                 value={searchQuery}
               />
+              <ScrollView>
               <FlatList
                 data={filteredCategories}
                 renderItem={renderCatItem}
                 keyExtractor={(item) => item}
+            style={tw`pb-35`}
               />
+              </ScrollView>
             </View>
           </View>
+          
         )}
         {/* Close modal button */}
         <TouchableOpacity

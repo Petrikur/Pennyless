@@ -9,15 +9,15 @@ import Chart from "../components/UI/chart";
 
 import List from "../components/List";
 
-const ExpensesScreen = () => {
+const ExpensesScreen = ({navigation}) => {
   const dataContext = useContext(DataContext);
   return (
     <ScrollView>
-      <View style={tw`flex-1 bg-gray-800 `}>
-        <Chart data={dataContext.filteredContextExpenses} />
+      <View style={tw`flex-1 bg-gray-800`}>
+        <Chart data={dataContext.filteredContextExpenses}  navigation={navigation}/>
         <List type={"expense"} data={dataContext.expenses} />
       </View>
-    </ScrollView>
+      </ScrollView>
   );
 };
 

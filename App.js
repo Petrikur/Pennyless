@@ -11,9 +11,11 @@ import ExpensesScreen from "./screens/ExpensesScreen";
 import IncomesScreen from "./screens/IncomesScreen";
 import { DataContextProvider } from "./components/context/DataContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Toast from 'react-native-toast-message';
+
 export default function App() {
   const Stack = createNativeStackNavigator();
-  const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator()
 
   const tabIcons = {
     Home: "home",
@@ -102,7 +104,12 @@ export default function App() {
               <Tab.Screen name="Expenses" component={ExpensesStack} />
             </Tab.Navigator>
           </NavigationContainer>
+
+
           </SafeAreaView>
+          <Toast
+      style={{ backgroundColor: 'pink' }}
+           />
       </DataContextProvider>
     </>
   );

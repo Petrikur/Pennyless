@@ -13,6 +13,20 @@ import CategorySelect from "../components/CategorySelect";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+
+export const showToast = (type, title,message) => {
+  const capitalizedMessage = message.charAt(0).toUpperCase() + message.slice(1);
+  Toast.show({
+    type: type,
+    text1: title,
+    text2: `${capitalizedMessage} item added!`,
+    props:{
+      style:{ borderLeftColor: 'pink' }
+    }
+  });
+};
+
 
 
 const AddBudgetItem = ({navigation}) => {
@@ -58,12 +72,18 @@ const AddBudgetItem = ({navigation}) => {
       navigation.navigate('Expenses'); 
     }
     setDescription("");
-    setAmount("");
+    setAmount(0);
     setDate(new Date());
     setType("income");
+  showToast('success', 'Success',type);
 
-    navigation
+
   };
+
+  // useEffect(() => {
+  //   console.log(global.showToast)
+  //   showToast('success', 'Title', 'Message');
+  // })
 
   const handleCategorySelect = (selectedCategory) => {
     setCategory(selectedCategory);

@@ -7,12 +7,12 @@ import { DataContext } from "../components/context/DataContext";
 import Chart from "../components/UI/chart";
 import { ScrollView } from "react-native";
 
-const IncomesScreen = () => {
+const IncomesScreen = ({navigation}) => {
   const dataContext = useContext(DataContext);
   return (
     <ScrollView>
       <View style={tw`flex-1 bg-gray-800`}>
-        <Chart data={dataContext.filteredContextIncomes} />
+        <Chart data={dataContext.filteredContextIncomes} navigation={navigation} />
         <List type={"income"} data={dataContext.incomes} />
       </View>
     </ScrollView>
