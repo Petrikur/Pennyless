@@ -8,19 +8,19 @@ App is currently developed towards android platform and im planning to do IOS al
 <h3>Login</h3>
 
 <div align='center'>
-  <img src="src/assets/images/addcategory.png" alt="addcat" />
+  <img src="assets/images/addcategory.png" alt="addcat" />
 </div>
 <div align='center'>
-  <img src="src/assets/images/addnew.png" alt="addnew" />
+  <img src="assets/images/addnew.png" alt="addnew" />
 </div>
 <div align='center'>
-  <img src="src/assets/images/catselect.png" alt="catselect" />
+  <img src="assets/images/catselect.png" alt="catselect" />
 </div>
 <div align='center'>
-  <img src="src/assets/images/expenses.png" alt="expenses" />
+  <img src="assets/images/expenses.png" alt="expenses" />
 </div>
 <div align='center'>
-  <img src="src/assets/images/home.png" alt="home" />
+  <img src="assets/images/home.png" alt="home" />
 </div>
 
 ## Features
